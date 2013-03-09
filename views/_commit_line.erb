@@ -22,6 +22,9 @@
   <td class="commitMessage">
     <a href="<%= commit.link %>" target="_blank"><%= CGI::escapeHTML(commit.short_message) %></a>
   </td>
+  <td>
+    [<%= CGI::escapeHTML(commit.short_message) %>](<%= commit.link %>)
+  </td>
   <td class="commitDate"><%= commit.date.to_pretty %></td>
   <td class="commitRepo"><%= commit.repo_name %></td>
   <td class="commentCount">

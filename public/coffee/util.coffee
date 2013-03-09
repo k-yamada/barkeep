@@ -119,6 +119,31 @@ window.KeyboardShortcuts =
     @registerPageShortcut "s", -> window.location.href = "/stats"
     @registerPageShortcut "i", -> window.location.href = "/inspire"
 
+window.copyClipboard = (text) ->
+  success = false
+  if ("console" in window && "notifyFirebug" in console) 
+    console.notifyFirebug([text], "copy", "firebugExecuteCommand")
+    success = true
+  else
+    input = document.createElement("input")
+    input.style.position = "absolute"
+    input.style.top = "-100px"
+    input.value = text
+    input.hidden = true
+    document.body.appendChild(input)
+    input.select()
+    try 
+      success = document.execCommand("copy", false, null)
+    catch ex
+      console.dir ex
+      console.log ex
+      success = false
+    finally
+      document.body.removeChild(input)
+  if !success
+    prompt("Press Ctrl+V", text)
+
 $(document).ready ->
   ShortcutOverlay.init()
   KeyboardShortcuts.init()
+
